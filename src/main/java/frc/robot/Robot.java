@@ -68,19 +68,9 @@ public class Robot extends TimedRobot
         CommandScheduler.getInstance().run();
 
         Vision.Periodic();
-
-        // Returns apriltag data
-        SmartDashboard.putNumber("Best Target Tx", LimelightHelpers.getTX(""));
-        SmartDashboard.putNumber("Target ID #", LimelightHelpers.getFiducialID(""));
-        SmartDashboard.putNumber("Target Ty", LimelightHelpers.getTY(""));
-        SmartDashboard.putNumber("Target Ta", LimelightHelpers.getTA(""));
-
+        
         // -- Output the robot orientation to the dashboard
         SmartDashboard.putNumber("Robot Yaw", RobotContainer.drivetrain.getPigeon2().getYaw().getValue());
-
-        Vision.GetDistanceFromTarget();
-        Vision.OutputData();
-
     }
 
 

@@ -134,10 +134,7 @@ public class RobotContainer
    
     Command Command_AlignToTag()
     {
-        return Commands.startEnd(
-                   () -> LimelightHelpers.setLEDMode_ForceOn(""),
-                   () -> LimelightHelpers.setLEDMode_ForceOff(""))
-               .alongWith(drivetrain.applyRequest(this::GetAlignToTagRequest));
+        return drivetrain.applyRequest(this::GetAlignToTagRequest);
     }
     
    public Command Command_RumbleControllers()
@@ -319,7 +316,7 @@ public class RobotContainer
         Operator.rightTrigger().onFalse(Pose.Command_GoToPose(PoseManager.EPose.Stowed).andThen(Commands.runOnce(() -> Intake.RequestCancelIntake())));
     }
 
-    private SwerveRequest GetDefaultDriveRequest()
+    public SwerveRequest GetDefaultDriveRequest()
     {
         double y = Driver.getLeftX();
         double x = Driver.getLeftY();

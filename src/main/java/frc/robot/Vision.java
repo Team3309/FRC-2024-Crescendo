@@ -2,20 +2,64 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.util.Set;
+import javax.management.modelmbean.InvalidTargetObjectTypeException;
+import java.lang.invoke.VarHandle;
+import java.util.Map;
 
 public class Vision
 {
-    static private final Set<Integer> ValidTags = Set.of
+    public enum ETagType
+    {
+        None,
+        Source,
+        Speaker,
+        SpeakerSide,
+        Amp,
+        Stage;
+        
+        ETagType() { this(0); }
+
+        ETagType(double distanceOffset)
+        {
+            DistanceOffset = distanceOffset;
+        }
+        
+        public final double DistanceOffset;
+    }
+    
+    static private final Map<Integer, ETagType> TagInfo = Map.ofEntries
         (
-              1, 2       // Blue Source
-            , 4          // Red Speaker (center)
-            , 5          // Red Amp
-            , 6          // Blue Amp
-            , 7          // Blue Speaker (center)
-            , 9, 10      // Red Source
-            , 11, 12, 13 // Red Stage
-            , 14, 15, 16 // Red Stage
+              // Blue Source
+              Map.entry(1, ETagType.Source)
+            , Map.entry(2, ETagType.Source)
+            
+              // Red Speaker 
+            , Map.entry(3, ETagType.SpeakerSide)
+            , Map.entry(4, ETagType.Speaker)
+              
+              // Red Amp
+            , Map.entry(5, ETagType.Amp)
+              
+              // Blue Amp
+            , Map.entry(6, ETagType.Amp)
+              
+              // Blue Speaker
+            , Map.entry(7, ETagType.Speaker)
+            , Map.entry(8, ETagType.SpeakerSide)
+              
+              // Red Source
+            , Map.entry(9, ETagType.Source)
+            , Map.entry(10, ETagType.Source)
+
+              // Red Stage
+            , Map.entry(11, ETagType.Stage)
+            , Map.entry(12, ETagType.Stage)
+            , Map.entry(13, ETagType.Stage)
+
+              // Red Stage
+            , Map.entry(14, ETagType.Stage)
+            , Map.entry(15, ETagType.Stage)
+            , Map.entry(16, ETagType.Stage)
         );
 
     static private boolean ResultsAreStale = true;
@@ -30,11 +74,18 @@ public class Vision
 
     static private void UpdateResults()
     {
+        
         if (ResultsAreStale)
         {
             LatestResults = LimelightHelpers.getLatestResults("").targetingResults;
             ResultsAreStale = false;
         }
+    }
+    
+    static public ETagType GetTagTypeForTarget(LimelightHelpers.LimelightTarget_Fiducial target)
+    {
+        if (target == null) { return ETagType.None; }
+        return TagInfo.getOrDefault((int)target.fiducialID, ETagType.None);
     }
 
     static public LimelightHelpers.LimelightTarget_Fiducial GetBestTarget()
@@ -46,7 +97,8 @@ public class Vision
         // -- loop through all fiducial targets and find the valid target that's closest to the center
         for (LimelightHelpers.LimelightTarget_Fiducial target : LatestResults.targets_Fiducials)
         {
-            if (ValidTags.contains((int)target.fiducialID))
+            ETagType targetType = GetTagTypeForTarget(target);
+            if (targetType != ETagType.None && targetType != ETagType.SpeakerSide)
             {
                 if (bestTarget == null || Math.abs(target.tx) < Math.abs(bestTarget.tx))
                 {
@@ -54,7 +106,6 @@ public class Vision
                 }
             }
         }
-
 
         return bestTarget;
     }
@@ -72,46 +123,4 @@ public class Vision
         }
         return bestNoteTarget;
     }
-
-    static public double GetDistanceFromTarget()
-    {
-        var target = GetBestTarget();
-        if (target == null){ return 0; }
-
-        double OffsetAngle = 0.0;
-
-        double LimelightMountHeight = 24.5;
-
-        double LimelightMountAngle = 13.0;
-
-        double GoalHeight = 0;
-
-        if (ValidTags.contains((int)target.fiducialID))
-        {
-            if (target.fiducialID == 5 || target.fiducialID == 6)
-            {
-                GoalHeight = 53.38;
-            }
-            else if (target.fiducialID == 4 || target.fiducialID == 7)
-            {
-                GoalHeight = 57.13;
-            }
-        }
-
-        double AngleToGoalRadians = LimelightMountAngle + OffsetAngle;
-        double AngleToGoalDegrees = AngleToGoalRadians * (Math.PI / 180);
-
-        double distance = (GoalHeight - LimelightMountHeight) / Math.tan(LimelightMountAngle + AngleToGoalDegrees);
-
-        return distance;
-    }
-
-    public static void OutputData()
-    {
-        var distance = GetDistanceFromTarget();
-        var target = GetBestTarget();
-
-        SmartDashboard.putNumber("Distance from Target", distance);
-    }
-
 }
