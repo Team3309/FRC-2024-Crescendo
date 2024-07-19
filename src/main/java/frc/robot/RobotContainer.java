@@ -68,7 +68,7 @@ public class RobotContainer
         .AddValue(0.35, 0.05)
         .AddValue(0.75, 0.2);
 
-    private final DriverStation.Alliance DefaultAlliance = DriverStation.Alliance.Blue;
+    private final DriverStation.Alliance DefaultAlliance = DriverStation.Alliance.Red;
 
     private DriverStation.Alliance CurrentAlliance = DriverStation.getAlliance().get();
 
@@ -298,7 +298,7 @@ public class RobotContainer
             Command_ScoreAmp()
         );
 
-        Driver.x().onTrue(Command_DriveForward(1, .45));
+        Driver.x().onTrue(Command_DriveForward(-1, .45));
 
         // -- Align
         Driver.rightBumper().whileTrue(new AutoTagCommand());
