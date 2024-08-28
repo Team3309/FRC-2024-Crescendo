@@ -86,14 +86,15 @@ public class AutoTagCommand extends Command
         double minDist = 1.52;
         //double crossOver = 2.3;
         double crossOver = 2.45;
-        double maxDist = 3; // Might have to change
+        double maxDist = 4.28; // Might have to change. OG: 3
 
         double minArmRot = -0.058; // OG: -.07
         double maxArmRot = ArmSubsystem.EArmPosition.Stowed.Rotations + 0.01;
 
         double minPivRot = IntakeSubsystem.EPivotPosition.Stowed.Rotations;
         //double maxPivRot = -0.286; //OG
-        double maxPivRot = -0.26;
+        double maxPivRot = -0.265;
+        //double maxPivRot = -0.290;
 
 
         // -- Auto Moving Arm
