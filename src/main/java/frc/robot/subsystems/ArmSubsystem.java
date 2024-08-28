@@ -23,7 +23,7 @@ public class ArmSubsystem extends SubsystemBase
 
     public enum EArmPosition {
         Stowed(LowerLimit),
-        Shoot_speaker(-0.076),
+        Shoot_speaker(-0.058), //TODO: Og .078
         Shoot_podium(LowerLimit), //TODO: tune when added
         Shoot_wing(LowerLimit), //TODO: tune when added
         Climb_FirstPos(UpperLimit),

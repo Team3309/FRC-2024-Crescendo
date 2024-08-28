@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.units.Current;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -87,14 +86,14 @@ public class AutoTagCommand extends Command
         double minDist = 1.52;
         //double crossOver = 2.3;
         double crossOver = 2.45;
-        double maxDist = 2.8; // Might have to change
+        double maxDist = 3; // Might have to change
 
-        double minArmRot = -0.08;
+        double minArmRot = -0.058; // OG: -.07
         double maxArmRot = ArmSubsystem.EArmPosition.Stowed.Rotations + 0.01;
 
         double minPivRot = IntakeSubsystem.EPivotPosition.Stowed.Rotations;
-        //double maxPivRot = -0.286; OG
-        double maxPivRot = -0.274;
+        //double maxPivRot = -0.286; //OG
+        double maxPivRot = -0.26;
 
 
         // -- Auto Moving Arm
@@ -144,7 +143,7 @@ public class AutoTagCommand extends Command
         RobotContainer.Get().drivetrain.setControl(request);
 
 
-        if (dist < maxDist && !IsShooting && AimPID.atSetpoint())
+        if (dist <= maxDist && !IsShooting && AimPID.atSetpoint())
         {
             System.out.println("At setpoint");
             if (dist < crossOver)
@@ -154,6 +153,13 @@ public class AutoTagCommand extends Command
                     RobotContainer.Get().Arm.Command_GoToPosition(armPos)
                         .andThen(Commands.waitSeconds(.5))
                     .andThen(RobotContainer.Get().Command_ScoreSpeaker()));
+            }
+            else if (dist == crossOver)
+            {
+                System.out.println("Shooting");
+                CommandScheduler.getInstance().schedule(
+                    RobotContainer.Get().Command_ScoreSpeaker()
+                );
             }
             else
             {
