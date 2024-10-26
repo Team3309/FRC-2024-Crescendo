@@ -85,7 +85,7 @@ public class AutoTagCommand extends Command
     {
         double minDist = 1.52;
         //double crossOver = 2.3;
-        double crossOver = 2.45;
+        double crossOver = 2.7;
         double maxDist = 4.28; // Might have to change. OG: 3
 
         double minArmRot = -0.058; // OG: -.07
