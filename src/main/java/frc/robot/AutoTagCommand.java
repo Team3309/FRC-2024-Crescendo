@@ -65,20 +65,20 @@ public class AutoTagCommand extends Command
         if (id == 5 || id ==6)
         {
             ExecuteAmp();
-            return;
+//            return;
         }
 
 //        if (id == 1 || id == 2 || id == 9 || id == 10)
-        if (id == 1 || id == 9)
-        {
-            ExecuteSource();
-            return;
-        }
-
-        if (id >= 11)
-        {
-            ExecuteStage();
-        }
+//        if (id == 1 || id == 9)
+//        {
+//            ExecuteSource();
+//            return;
+//        }
+//
+//        if (id >= 11)
+//        {
+//            ExecuteStage();
+//        }
     }
 
     private void ExecuteSpeaker()
