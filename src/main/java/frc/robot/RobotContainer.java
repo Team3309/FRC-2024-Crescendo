@@ -188,15 +188,9 @@ public class RobotContainer
 
     private void ConfigureAutoCommands()
     {
-        NamedCommands.registerCommand("Score Preload", Commands.sequence(
-            Pose.Command_GoToPose(PoseManager.EPose.Speaker),
-            Commands.waitSeconds(0.5),
-            Intake.Command_Outtake(IntakeSubsystem.EOuttakeType.speaker),
-            Pose.Command_GoToPose(PoseManager.EPose.Stowed)));
-
         NamedCommands.registerCommand("Arm Score", Pose.Command_GoToPose(PoseManager.EPose.Speaker));
         NamedCommands.registerCommand("Arm Stow", Pose.Command_GoToPose(PoseManager.EPose.Stowed));
-        NamedCommands.registerCommand("Intake Note", Command_IntakeNoteSequence(false));//.withTimeout(2.5));
+        NamedCommands.registerCommand("Intake Note", Command_IntakeNoteSequence(false).withTimeout(2.5));
         NamedCommands.registerCommand("Bump Note", Intake.Command_MoveNote(false).withTimeout(1));
 
         NamedCommands.registerCommand("Stop Intake motors", Intake.Command_StopIntake());
