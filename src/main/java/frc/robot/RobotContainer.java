@@ -264,6 +264,7 @@ public class RobotContainer
     // --------------------------------------------------------------------------------------------
     private void ConfigureDriverBindings()
     {
+        Driver.y().onTrue(Commands.runOnce(() -> drivetrain.getPigeon2().reset()));
 
         // Slow drive relative to bot pose
 //        Driver.povUp().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityX(.5))); // Fine-tune control forwards
@@ -288,42 +289,24 @@ public class RobotContainer
                 Commands.waitSeconds(0.5),
                 Commands.runOnce(() -> Intake.RequestCancelIntake()))
         );
-        Driver.rightTrigger().onFalse(Commands.sequence(
-//            Command_AutoPose(),
-            Commands.waitSeconds(1),
-            Pose.Command_GoToPose(PoseManager.EPose.Stowed)
-        ));
 
-        Operator.rightBumper().onTrue(Command_IntakeNoteSequence(true));
-        Operator.rightBumper().onFalse(Pose.Command_GoToPose(PoseManager.EPose.Stowed).andThen(Commands.runOnce(() -> Intake.RequestCancelIntake())));
 
-//        // -- Outtake speaker
-//        Driver.leftTrigger().onTrue(
-//            Command_ScoreSpeaker()
-//        );
-//
-//        // -- Outtake Amp
-//        Driver.leftBumper().onTrue(
-//            Command_ScoreAmp()
-//        );
+        // -- Outtake speaker
+        Driver.leftTrigger().onTrue(
+            Command_ScoreSpeaker()
+        );
+
+        // -- Outtake Amp
+        Driver.leftBumper().onTrue(
+            Command_ScoreAmp()
+        );
 
 //        Driver.x().onTrue(Command_DriveForward(-1, .45));
 
         // -- Align
-        Driver.leftBumper().whileTrue(new AutoTagCommand());
+        Driver.rightBumper().whileTrue(new AutoTagCommand());
 
-//        Driver.rightBumper().onFalse(Commands.sequence(
-//            Intake.Command_Outtake(IntakeSubsystem.EOuttakeType.amp)
-//        ));
 
-//        Driver.rightBumper().onFalse(Commands.sequence(
-//            Commands.waitSeconds(1),
-//            Command_AutoPose()
-//        ));
-
-        // -- Testing for autoPosing and Outtaking depending on apriltag
-//        Driver.a().onTrue(Command_AutoPose());
-        //Driver.b().whileTrue(drivetrain.applyRequest(this::GetAlignToTagRequest));
 
     }
     

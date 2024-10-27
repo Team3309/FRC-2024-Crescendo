@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 1.4,
-        "y": 5.5
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
         "x": 1.5,
-        "y": 5.5
+        "y": 5.55
       },
       "isLocked": false,
       "linkedName": null
@@ -17,27 +17,43 @@
     {
       "anchor": {
         "x": 1.6400000000000001,
-        "y": 5.5
+        "y": 5.55
       },
       "prevControl": {
         "x": 1.54,
-        "y": 5.5
+        "y": 5.55
       },
       "nextControl": {
         "x": 1.7400000000000002,
-        "y": 5.5
+        "y": 5.55
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.35,
-        "y": 5.5
+        "x": 2.35196304414775,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 2.25,
-        "y": 5.5
+        "x": 2.25196304414775,
+        "y": 5.55
+      },
+      "nextControl": {
+        "x": 2.45196304414775,
+        "y": 5.55
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.63,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 1.7300000000000018,
+        "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
@@ -54,32 +70,14 @@
       "waypointRelativePos": 1,
       "rotationDegrees": 0,
       "rotateFast": false
-    }
-  ],
-  "constraintZones": [
-    {
-      "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.35,
-      "constraints": {
-        "maxVelocity": 5.0,
-        "maxAcceleration": 2.5,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
     },
     {
-      "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0.3,
-      "maxWaypointRelativePos": 1.45,
-      "constraints": {
-        "maxVelocity": 0.25,
-        "maxAcceleration": 2.5,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
+      "waypointRelativePos": 2.4000000000000004,
+      "rotationDegrees": 0.0,
+      "rotateFast": true
     }
   ],
+  "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake Sequence",
@@ -91,7 +89,7 @@
             {
               "type": "wait",
               "data": {
-                "waitTime": 1.0
+                "waitTime": 0.5
               }
             },
             {
@@ -112,15 +110,15 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 5.18,
+    "maxVelocity": 0.4,
     "maxAcceleration": 2.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": false
+    "rotation": 180.0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": null,
@@ -128,5 +126,5 @@
     "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
