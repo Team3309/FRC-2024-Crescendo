@@ -57,7 +57,7 @@ public class RobotContainer
     // --------------------------------------------------------------------------------------------
     // -- Tuning Values
     // --------------------------------------------------------------------------------------------
-    private final double MaxRotationsPerSecond = 0.4;
+    private final double MaxRotationsPerSecond = 0.75;
     private LookupTable ThrottleLut = new LookupTable.Normalized()
         .AddValue(0.1, 0.0) // dead-band
         .AddValue(0.35, 0.05)
@@ -260,20 +260,20 @@ public class RobotContainer
     {
 
         // Slow drive relative to bot pose
-//        Driver.povUp().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityX(.5))); // Fine-tune control forwards
-//        Driver.povDown().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityX(-.5))); // Fine-tune control backwards
-//        Driver.povRight().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityY(-.5))); // Fine-tune control right
-//        Driver.povLeft().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityY(.5))); // Fine-tune control left
-//
-//        Driver.povUpRight().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityX(.5).withVelocityY(-.5))); // Fine-tune control diagonally up and right
-//        Driver.povUpLeft().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityX(.5).withVelocityY(.5))); // Fine-tune control diagonally up and left
-//        Driver.povDownLeft().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityX(-.5).withVelocityY(.5))); // Fine-tune control diagonally down and left
-//        Driver.povDownRight().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityX(-.5).withVelocityY(-.5))); // Fine-tune control diagonally down and right
+        Driver.povUp().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityX(.5))); // Fine-tune control forwards
+        Driver.povDown().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityX(-.5))); // Fine-tune control backwards
+        Driver.povRight().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityY(-.5))); // Fine-tune control right
+        Driver.povLeft().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityY(.5))); // Fine-tune control left
+
+        Driver.povUpRight().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityX(.5).withVelocityY(-.5))); // Fine-tune control diagonally up and right
+        Driver.povUpLeft().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityX(.5).withVelocityY(.5))); // Fine-tune control diagonally up and left
+        Driver.povDownLeft().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityX(-.5).withVelocityY(.5))); // Fine-tune control diagonally down and left
+        Driver.povDownRight().whileTrue(drivetrain.applyRequest(() -> driveFieldCentric.withVelocityX(-.5).withVelocityY(-.5))); // Fine-tune control diagonally down and right
 
         //Driver.a().whileTrue(drivetrain.applyRequest(() -> brake));
         //Driver.b().whileTrue(drivetrain.applyRequest(() -> point.withModuleDirection(new Rotation2d(-Driver.getLeftY(), -Driver.getLeftX()))));
 
-        //Driver.y().onTrue(drivetrain.runOnce(drivetrain::seedFieldRelative).ignoringDisable(true));
+        Driver.y().onTrue(drivetrain.runOnce(drivetrain::seedFieldRelative).ignoringDisable(true));
 
         // -- Intake
         Driver.rightTrigger().onTrue(Command_IntakeNoteSequence(false));
@@ -288,23 +288,20 @@ public class RobotContainer
             Pose.Command_GoToPose(PoseManager.EPose.Stowed)
         ));
 
-        Operator.rightBumper().onTrue(Command_IntakeNoteSequence(true));
-        Operator.rightBumper().onFalse(Pose.Command_GoToPose(PoseManager.EPose.Stowed).andThen(Commands.runOnce(() -> Intake.RequestCancelIntake())));
+        // -- Outtake speaker
+        Driver.leftTrigger().onTrue(
+            Command_ScoreSpeaker()
+        );
 
-//        // -- Outtake speaker
-//        Driver.leftTrigger().onTrue(
-//            Command_ScoreSpeaker()
-//        );
-//
-//        // -- Outtake Amp
-//        Driver.leftBumper().onTrue(
-//            Command_ScoreAmp()
-//        );
+        // -- Outtake Amp
+        Driver.leftBumper().onTrue(
+            Command_ScoreAmp()
+        );
 
-//        Driver.x().onTrue(Command_DriveForward(-1, .45));
+        Driver.x().onTrue(Command_DriveForward(-1, .45));
 
         // -- Align
-        Driver.leftBumper().whileTrue(new AutoTagCommand());
+        Driver.rightBumper().whileTrue(new AutoTagCommand());
 
 //        Driver.rightBumper().onFalse(Commands.sequence(
 //            Intake.Command_Outtake(IntakeSubsystem.EOuttakeType.amp)
@@ -317,7 +314,7 @@ public class RobotContainer
 
         // -- Testing for autoPosing and Outtaking depending on apriltag
 //        Driver.a().onTrue(Command_AutoPose());
-        //Driver.b().whileTrue(drivetrain.applyRequest(this::GetAlignToTagRequest));
+        Driver.b().whileTrue(drivetrain.applyRequest(this::GetAlignToTagRequest));
 
     }
     
@@ -328,8 +325,8 @@ public class RobotContainer
     // --------------------------------------------------------------------------------------------
     private void ConfigureOperatorBindings()
     {
-//        Operator.start().onTrue(Arm.Command_ZeroArmEncoder().alongWith(Intake.Command_ZeroPivotEncoder().ignoringDisable(true)));
-//        Operator.back().whileTrue(Arm.Command_ManualArmControl());
+        Operator.start().onTrue(Arm.Command_ZeroArmEncoder().alongWith(Intake.Command_ZeroPivotEncoder().ignoringDisable(true)));
+        Operator.back().whileTrue(Arm.Command_ManualArmControl());
 
 
 
@@ -338,8 +335,8 @@ public class RobotContainer
         Operator.x().onTrue(Pose.Command_GoToPose(PoseManager.EPose.Amp));
         Operator.y().onTrue(Pose.Command_GoToPose(PoseManager.EPose.Speaker));
 
-//        Operator.povUp().onTrue(Pose.Command_GoToPose(PoseManager.EPose.PreClimb));
-//        Operator.povDown().onTrue(Arm.Command_Climb());
+        Operator.povUp().onTrue(Pose.Command_GoToPose(PoseManager.EPose.PreClimb));
+        Operator.povDown().onTrue(Arm.Command_Climb());
 
         Operator.povLeft().onTrue(Arm.Command_SetNeutralMode(NeutralModeValue.Brake).alongWith(Intake.Command_SetNeutralMode(NeutralModeValue.Brake)));
         Operator.povRight().onTrue(Arm.Command_SetNeutralMode(NeutralModeValue.Coast).alongWith(Intake.Command_SetNeutralMode(NeutralModeValue.Coast)));
@@ -349,8 +346,8 @@ public class RobotContainer
 
         Operator.leftTrigger().onTrue(Intake.Command_FeederTakeNote(false));
 
-//        Operator.rightTrigger().onTrue(Command_IntakeNoteSequence(true));
-//        Operator.rightTrigger().onFalse(Pose.Command_GoToPose(PoseManager.EPose.Stowed).andThen(Commands.runOnce(() -> Intake.RequestCancelIntake())));
+        Operator.rightTrigger().onTrue(Command_IntakeNoteSequence(true));
+        Operator.rightTrigger().onFalse(Pose.Command_GoToPose(PoseManager.EPose.Stowed).andThen(Commands.runOnce(() -> Intake.RequestCancelIntake())));
     }
 
     public Pose2d GetVelocityForThrottle()
@@ -365,8 +362,8 @@ public class RobotContainer
             return new Pose2d();
         }
 
-        double finalX = x * deflectionLut * 2.5;
-        double finalY = y * deflectionLut * 2.5;
+        double finalX = x * deflectionLut * TunerConstants.kSpeedAt12VoltsMps;
+        double finalY = y * deflectionLut * TunerConstants.kSpeedAt12VoltsMps;
         return new Pose2d(-finalX, -finalY, new Rotation2d());
     }
 
