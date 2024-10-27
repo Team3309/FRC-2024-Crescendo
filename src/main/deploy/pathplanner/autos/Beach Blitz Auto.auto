@@ -20,13 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Copy of Beach Blitz - Pickup & Score Middle"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Score Preload"
+            "pathName": "Beach Blitz - Pickup & Score Middle"
           }
         }
       ]

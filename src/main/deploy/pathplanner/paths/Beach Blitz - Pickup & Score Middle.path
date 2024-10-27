@@ -32,11 +32,11 @@
     },
     {
       "anchor": {
-        "x": 2.35,
+        "x": 2.08,
         "y": 5.5
       },
       "prevControl": {
-        "x": 2.25,
+        "x": 1.98,
         "y": 5.5
       },
       "nextControl": null,
@@ -98,12 +98,6 @@
               "type": "named",
               "data": {
                 "name": "Intake Note"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Bump Note"
               }
             }
           ]
