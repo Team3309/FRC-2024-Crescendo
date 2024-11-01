@@ -102,13 +102,13 @@ public class Robot extends TimedRobot
     @Override
     public void autonomousInit()
     {
-        AutonomousCommand = RobotContainer.GetAutonomousCommand();
+        //AutonomousCommand = RobotContainer.GetAutonomousCommand();
 
         // schedule the autonomous command (example)
-        if (AutonomousCommand != null)
-        {
-            AutonomousCommand.schedule();
-        }
+       // if (AutonomousCommand != null)
+       // {
+       //     AutonomousCommand.schedule();
+      //  }
     }
 
     @Override

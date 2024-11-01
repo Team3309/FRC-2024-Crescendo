@@ -8,8 +8,7 @@ package frc.robot;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -99,7 +98,6 @@ public class RobotContainer
     // --------------------------------------------------------------------------------------------
     // -- Auto Chooser
     // --------------------------------------------------------------------------------------------
-    private final SendableChooser<Command> autoChooser;
 
     
     
@@ -114,18 +112,8 @@ public class RobotContainer
     {
         _This = this;
 
-
-
         ConfigureAutoCommands();
-        autoChooser = AutoBuilder.buildAutoChooser();
-        SmartDashboard.putData("Auto Chooser", autoChooser);
-        autoChooser.addOption("None", Commands.none());
-        autoChooser.addOption("SimpleForward", Commands.run(() -> driveFieldCentric.withVelocityX(1)).withTimeout(2));
-        autoChooser.addOption("Score Preload", Commands.sequence(
-            Pose.Command_GoToPose(PoseManager.EPose.Speaker),
-            Commands.waitSeconds(0.5),
-            Intake.Command_Outtake(IntakeSubsystem.EOuttakeType.speaker),
-            Pose.Command_GoToPose(PoseManager.EPose.Stowed)));
+
 
         SetDefaultCommands();
 
@@ -188,20 +176,20 @@ public class RobotContainer
 
     private void ConfigureAutoCommands()
     {
-        NamedCommands.registerCommand("Arm Score", Pose.Command_GoToPose(PoseManager.EPose.Speaker));
-        NamedCommands.registerCommand("Arm Stow", Pose.Command_GoToPose(PoseManager.EPose.Stowed));
-        NamedCommands.registerCommand("Intake Note", Command_IntakeNoteSequence(false).withTimeout(2.5));
-        NamedCommands.registerCommand("Bump Note", Intake.Command_MoveNote(false).withTimeout(1));
+        //NamedCommands.registerCommand("Arm Score", Pose.Command_GoToPose(PoseManager.EPose.Speaker));
+        //NamedCommands.registerCommand("Arm Stow", Pose.Command_GoToPose(PoseManager.EPose.Stowed));
+        //NamedCommands.registerCommand("Intake Note", Command_IntakeNoteSequence(false).withTimeout(2.5));
+        //NamedCommands.registerCommand("Bump Note", Intake.Command_MoveNote(false).withTimeout(1));
 
-        NamedCommands.registerCommand("Stop Intake motors", Intake.Command_StopIntake());
-        NamedCommands.registerCommand("Condition Stop Intake", Intake.Command_ConditionalStowAuto());
-        NamedCommands.registerCommand("Shoot Speaker", Intake.Command_Outtake(IntakeSubsystem.EOuttakeType.speaker).withTimeout(0.5).andThen(Intake.Command_StopIntake()));
+        //NamedCommands.registerCommand("Stop Intake motors", Intake.Command_StopIntake());
+        //NamedCommands.registerCommand("Condition Stop Intake", Intake.Command_ConditionalStowAuto());
+        //NamedCommands.registerCommand("Shoot Speaker", Intake.Command_Outtake(IntakeSubsystem.EOuttakeType.speaker).withTimeout(0.5).andThen(Intake.Command_StopIntake()));
     }
     
-    public Command GetAutonomousCommand()
-    {
-        return autoChooser.getSelected();
-    }
+    //public Command GetAutonomousCommand()
+    //{
+      //  return autoChooser.getSelected();
+    //}
 
     public Command Command_DriveForward(double direction, double time)
     {
