@@ -9,11 +9,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
-//import com.pathplanner.lib.auto.AutoBuilder;
-//import com.pathplanner.lib.commands.PathPlannerAuto;
-//import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-//import com.pathplanner.lib.util.PIDConstants;
-//import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
@@ -47,50 +43,25 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
 
     public SwerveSubsystem(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency, SwerveModuleConstants... modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules);
-        //configurePathPlanner();
+
         if (Utils.isSimulation()) {
             startSimThread();
         }
     }
     public SwerveSubsystem(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
         super(driveTrainConstants, modules);
-        //configurePathPlanner();
+
         if (Utils.isSimulation()) {
             startSimThread();
         }
     }
 
-    //private void configurePathPlanner() {
-        //double driveBaseRadius = 0.49;
-        //for (var moduleLocation : m_moduleLocations)
-        //{
-         //   driveBaseRadius = Math.max(driveBaseRadius, moduleLocation.getNorm());
-        //}
-        //AutoBuilder.configureHolonomic(
-         //       () -> this.getState().Pose,
-           //     this::seedFieldRelative,
-             //   this::getCurrentRobotChassisSpeeds,
-               // (speeds) -> this.setControl(autoRequest.withSpeeds(speeds)),
-                //new HolonomicPathFollowerConfig(new PIDConstants(3, 0, 0),
-                 //       new PIDConstants(3, 0, 0),
-                 //       TunerConstants.kSpeedAt12VoltsMps,
-                  //      driveBaseRadius,
-                    //    new ReplanningConfig()),
-                //() -> DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red,
-                //this);
 
-
-   // }
 
     public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
         return run(() -> this.setControl(requestSupplier.get()));
     }
-
     
-
-    //public Command getAutoPath(String pathName) {
-    //    return new PathPlannerAuto(pathName);
-    //}
 
     public ChassisSpeeds getCurrentRobotChassisSpeeds() {
         return m_kinematics.toChassisSpeeds(getState().ModuleStates);
